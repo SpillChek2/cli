@@ -180,8 +180,14 @@ if [ $EXIT_CODE != 0 ]; then
     exit $EXIT_CODE
 fi
 
-#ignore 1.1.2 install failure, as it is not present on all platforms
-(set -x ; "$REPOROOT/scripts/obtain/dotnet-install.sh" --version "1.1.2" --runtime "dotnet" --install-dir "$DOTNET_INSTALL_DIR" --architecture "$ARCHITECTURE" || true)
+# These are used to test 1.x/2.x scenarios
+# Don't install in source build or when cross-compiling
+if [[ "$DotNetBuildFromSource" != "true" && "$ARCHITECTURE" == "$INSTALL_ARCHITECTURE" ]]; then
+    #ignore 1.1.2 install failure, as it is not present on all platforms
+    (set -x ; "$REPOROOT/scripts/obtain/dotnet-install.sh" --version "1.1.2" --runtime "dotnet" --install-dir "$DOTNET_INSTALL_DIR" --architecture "$ARCHITECTURE" || true)
+    (set -x ; "$REPOROOT/scripts/obtain/dotnet-install.sh" --version "2.0.0" --runtime "dotnet" --install-dir "$DOTNET_INSTALL_DIR" --architecture "$ARCHITECTURE" || true)
+    (set -x ; "$REPOROOT/scripts/obtain/dotnet-install.sh" --version "2.1.0" --runtime "dotnet" --install-dir "$DOTNET_INSTALL_DIR" --architecture "$ARCHITECTURE" || true)
+fi
 
 # Put stage 0 on the PATH (for this shell only)
 PATH="$DOTNET_INSTALL_DIR:$PATH"
@@ -198,8 +204,8 @@ fi
 export DOTNET_SKIP_FIRST_TIME_EXPERIENCE=1
 
 if [ $BUILD -eq 1 ]; then
-    dotnet msbuild build.proj /p:Architecture=$ARCHITECTURE $CUSTOM_BUILD_ARGS /p:GeneratePropsFile=true /t:BuildDotnetCliBuildFramework ${argsnotargets[@]}
-    dotnet msbuild build.proj /m /v:normal /fl /flp:v=diag /p:Architecture=$ARCHITECTURE $CUSTOM_BUILD_ARGS $args
+    dotnet msbuild build.proj /bl:msbuild.generatepropsfile.binlog /p:Architecture=$ARCHITECTURE $CUSTOM_BUILD_ARGS /p:GeneratePropsFile=true /t:BuildDotnetCliBuildFramework ${argsnotargets[@]}
+    dotnet msbuild build.proj /bl:msbuild.mainbuild.binlog /m /v:normal /fl /flp:v=diag /p:Architecture=$ARCHITECTURE $CUSTOM_BUILD_ARGS $args
 else
     echo "Not building due to --nobuild"
     echo "Command that would be run is: 'dotnet msbuild build.proj /m /p:Architecture=$ARCHITECTURE $CUSTOM_BUILD_ARGS $args'"

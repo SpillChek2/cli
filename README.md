@@ -1,6 +1,6 @@
 # .NET Command Line Interface
 
-[![.NET Slack Status](https://aspnetcoreslack.herokuapp.com/badge.svg?2)](http://tattoocoder.com/aspnet-slack-sign-up/) [![Join the chat at https://gitter.im/dotnet/cli](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/dotnet/cli?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+[![Join the chat at https://gitter.im/dotnet/cli](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/dotnet/cli?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 This repo contains the source code for cross-platform [.NET Core](http://github.com/dotnet/core) command line toolchain. It contains the implementation of each command and the documentation.
 
@@ -19,6 +19,7 @@ This project has adopted the code of conduct defined by the [Contributor Covenan
 
 Build Status
 ------------
+
 |Windows x64 |
 |:------:|
 |[![](https://devdiv.visualstudio.com/_apis/public/build/definitions/0bdbc590-a062-4c3f-b0f6-9383f67865ee/7716/badge)](https://devdiv.visualstudio.com/DevDiv/_build?_a=completed&definitionId=7716)|
@@ -64,3 +65,5 @@ License
 -------
 
 By downloading the .zip you are agreeing to the terms in the project [EULA](https://aka.ms/dotnet-core-eula).
+
+
